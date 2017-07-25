@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<title>Energy Usage Calculator </title>
+
+<style>
+  h1 {
+      background-color: blanchedalmond;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      font-size: 150%; 
+      color: purple;
+      text-align: center;
+  }
+  
+  .item-container {
+    color: brown;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 120%;
+
+    display: grid;
+    grid-auto-columns:  min(300px,1fr) minmax(300px,1fr);
+    grid-gap: 10px;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      "Inputs Outputs";
+  }
+  .Inputs {
+    background-color: beige;
+    grid-area: Inputs;
+  }
+  .Outputs { 
+    background-color: beige;
+    grid-area: Outputs;
+  }
+
+  .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+
+  @media screen and (max-width: 34em){
+      .item-container {
+        color: brown;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 120%;
+
+        display: grid;
+        grid-gap: 10px;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+          "Inputs"
+          "Outputs";
+      }
+  }
+</style>
+
+<script> 
+  function MDtoAD(MD,MDunits,PF,OH,LF,PE,AD,AMMD,EC) {
+    document.getElementById("AD").innerHTML=(MD*MDunits/PF/AD).toFixed(3);
+    document.getElementById("EC").innerHTML=(MD*MDunits*LF*OH/1000/1000/EC).toFixed(3);
+    document.getElementById("AMMD").innerHTML=(MD*MDunits/PF*PE/100/AMMD).toFixed(3);
+  }
+</script>
+
+
+<h1>Load Calculator </h1>
+
+<div class="item-container">
+
+  <div class="Inputs">
+      <p>
+      <label>Maximum Demand: </label>
+      <br>
+      <input id="MD" type="number" placeholder="1000"> 
+        <select id=MDunits>
+          <option value="1">kW</option>
+          <option value="0.001">W</option>
+          <option value="1000">MW</option>
+          <option value="0.7194">A/3ph</option>
+          <option value="2.157">A/1ph</option>
+        </select>
+      </p>
+
+      <p>
+       <label>Power Factor: </label>
+      <br>
+       <input id="PF" type="number" placeholder="0.85"> W/VA
+      </p>
+
+      <p>
+       <label>Operation Hours Per Year: </label>
+      <br>
+       <input id="OH" type="number" placeholder="8760">Hours
+      </p>
+
+      <p>
+       <label>Limit Factor: </label>
+      <br>
+       <input id="LF" type="number" placeholder="0.5">
+      </p>
+
+      <p>
+       <label>Peak Energy as Proportion of Total: </label>
+      <br>
+       <input id="PE" type="number" placeholder="55">%
+      </p>
+
+      <button class="button"
+        onclick="MDtoAD(MD.value,MDunits.value,PF.value,OH.value,
+          LF.value,PE.value,ADunits.value,AMMDunits.value,ECunits.value)" type="button"> Calculate 
+      </button> 
+  </div>
+
+  <div class="Outputs">
+      <p>
+          Authorised Demand:
+          <br>
+           <span id="AD"></span> 
+          <select id=ADunits>
+            <option value="1">kVA</option>
+            <option value="0.001">VA</option>
+            <option value="1000">MVA</option>
+          </select>
+      </p>
+      <p>Energy Consumption per Year: <br><span id="EC"></span>
+      
+        <select id=ECunits>
+            <option value="1">GWH</option>
+            <option value="0.001">kWH</option>
+        </select>
+      </p>
+      <p>Average Monthly Maximum Demand: <br>
+        <span id="AMMD"></span>
+      
+        <select id=AMMDunits>
+            <option value="1">kVA</option>
+            <option value="0.001">VA</option>
+            <option value="1000">MVA</option>
+        </select>
+      </p>
+  </div>
+
+</div>
+
+</html>
+
+
